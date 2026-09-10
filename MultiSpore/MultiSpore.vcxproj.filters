@@ -11,6 +11,15 @@
     <Filter Include="Internal">
       <UniqueIdentifier>{d62ad12d-69d8-4933-8342-03043c9adc22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MultiSpore\Sources">
+      <UniqueIdentifier>{542eaa20-cccd-4517-8646-1915f1f7d3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MultiSpore\Sources\Client">
+      <UniqueIdentifier>{56309ecd-e38e-42f2-b0e0-d1eaf150d52b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MultiSpore\Sources\Log">
+      <UniqueIdentifier>{e3f7c51d-5327-43d3-b57a-6a1544a21a45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -19,6 +28,12 @@
     <ClInclude Include="stdafx.h">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>MultiSpore\Sources\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>MultiSpore\Sources\Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -26,6 +41,12 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>MultiSpore\Sources\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>MultiSpore\Sources\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

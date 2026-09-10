@@ -1,98 +1,34 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "stdafx.h"
 
-/*#include <winsock2.h>
-#include <ws2tcpip.h>
-
-#pragma comment(lib, "ws2_32.lib")
+#define STRINGIFY_IMPL(x) #x
+#define STRINGIFY(x) STRINGIFY_IMPL(x)
 
 #define HOST "127.0.0.1"
 #define PORT 5523
 
-SOCKET sock = INVALID_SOCKET;
-sockaddr_in socketAddress{}; */
-
 using namespace ArgScript;
 
-struct Position {
-	float x, y, z;
-};
-
-Vector3 GetPos();
-
-
-class GetPositionCheat
-	: public ICommand
+class ConnectCheat : public ICommand
 {
 public:
 	void ParseLine(const Line& line) override {
-		Vector3 position = GetPos();
-		App::ConsolePrintF("Player position: %f, %f", position.x, position.y, position.z);
+		App::ConsolePrintF("Connecting to: %s:%d", HOST, PORT);
 	}
 	const char* GetDescription(DescriptionMode mode) const override {
-		return "TEST COMMAND: Gets the player position";
+		return "Connects to: " HOST ":" STRINGIFY(PORT);
 	}
 };
 
-Vector3 GetPos()
+class DisconnectCheat : public ICommand
 {
-	// X+Y pos for the cell game mode
-	// X+Y+Z for other game modes
-    Vector3 position{};
-
-    switch (GameModeManager.GetActiveModeID()) {
-    case kGameCell: {
-        Simulator::Cell::cCellObjectData* playerCell = Simulator::Cell::GetPlayerCell();
-
-        if (!playerCell)
-        {
-            App::ConsolePrintF("COULD NOT FIND PLAYER CELL");
-			break;
-        } else {
-            position = playerCell->GetPosition();
-        }
-
-        break;
-    }
-
-	case kGameCreature: {
-		break;
+public:
+	void ParseLine(const Line& line) override {
 	}
-
-    case kGameTribe:
-        break;
-
-    case kGameCiv:
-        break;
-
-    case kGameSpace:
-        break;
-
-    default:
-        App::ConsolePrintF("UNKNOWN GAME MODE");
-        break;
-    }
-
-    return position;
-}
-
-/* void SendClientPosition(const Vector3& position)
-{
-	Position packet{
-		position.x,
-		position.y,
-		position.z
-	};
-
-	sendto(
-		sock,
-		reinterpret_cast<const char*>(&packet),
-		sizeof(packet),
-		0,
-		reinterpret_cast<sockaddr*>(&socketAddress),
-		sizeof(socketAddress)
-	);
-} */
+	const char* GetDescription(DescriptionMode mode) const override {
+		return "Disconnects from the server";
+	}
+};
 
 void Initialize()
 {
@@ -104,16 +40,9 @@ void Initialize()
 	//  - Add new space tools
 	//  - Change materials
 
-	/*WSADATA wsaData;
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) == 0) {
-		sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-
-		socketAddress.sin_family = AF_INET;
-		socketAddress.sin_port = htons(PORT);
-		inet_pton(AF_INET, HOST, &socketAddress.sin_addr);
-	}*/
-
-	CheatManager.AddCheat("getpos", new GetPositionCheat());
+	// these cheats temp
+	CheatManager.AddCheat("connect", new ConnectCheat());
+	CheatManager.AddCheat("disconnect", new DisconnectCheat());
 }
 
 void Dispose()
@@ -129,10 +58,10 @@ void AttachDetours()
 
 
 // Generally, you don't need to touch any code here
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-					 )
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+)
 {
 	switch (ul_reason_for_call)
 	{
